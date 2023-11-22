@@ -11,6 +11,7 @@ class UserController extends Controller
     public function signUp(Request $request)
     {
         $user = new User();
+        $user->code = '';
         $user->fio = $request->fio;
         $user->phone = $request->phone;
         $user->gender = $request->gender;
@@ -20,8 +21,18 @@ class UserController extends Controller
         return $user;
     }
 
-    public function signIn(Request $request, User $user)
+    public function get_code(string $phone)
     {
+        $code = '000000';
+        $user = User::where('phone', $phone)->first();
+        $user->code = $code;
+        $user->save();
+        return $user;
+    }
+
+    public function signIn(Request $request)
+    {
+        $user = User::where('phone', $request->phone)->first();
         if ($user->code == $request->code)
         {
             return [

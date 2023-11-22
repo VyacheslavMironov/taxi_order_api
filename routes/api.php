@@ -20,18 +20,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::prefix('user')->group(function() {
-    Route::post('/create', [UserController::class, 'create']);
+    Route::post('/create', [UserController::class, 'signUp']);
     Route::get('/get-code/{phone:phone}', [UserController::class, 'get_code']);
-    Route::post('/auth', [UserController::class, 'auth']);
+    Route::post('/auth', [UserController::class, 'signIn']);
     Route::middleware('auth:sanctum')->group(function(){
         Route::delete('/logout/{user}', [UserController::class, 'logout']);
     });
-    
 });
 
 Route::prefix('order')->group(function() {
     Route::prefix('task', function() {  });
     Route::middleware('auth:sanctum')->group(function(){
+        Route::post('/', [OrderController::class, 'all']);
+        Route::post('/show/{id}', [OrderController::class, 'show']);
         Route::post('/create', [OrderController::class, 'create']);
     });
 });
