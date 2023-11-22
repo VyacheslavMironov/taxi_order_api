@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +18,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+Route::prefix('user')->group(function() {
+    Route::post('/create', [UserController::class, 'create']);
+    Route::get('/get-code/{phone:phone}', [UserController::class, 'get_code']);
+    Route::post('/auth', [UserController::class, 'auth']);
+    Route::middleware('auth:sanctum')->group(function(){
+        Route::delete('/logout/{user}', [UserController::class, 'logout']);
+    });
+    
+});
+
+Route::prefix('order')->group(function() {
+    Route::prefix('task', function() {  });
+    Route::middleware('auth:sanctum')->group(function(){
+        Route::post('/create', [OrderController::class, 'create']);
+    });
 });
