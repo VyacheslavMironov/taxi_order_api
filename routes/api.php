@@ -29,10 +29,12 @@ Route::prefix('user')->group(function() {
 });
 
 Route::prefix('order')->group(function() {
-    Route::prefix('task', function() {  });
-    Route::middleware('auth:sanctum')->group(function(){
-        Route::post('/', [OrderController::class, 'all']);
-        Route::post('/show/{id}', [OrderController::class, 'show']);
-        Route::post('/create', [OrderController::class, 'create']);
+    Route::prefix('task')->group(function() {  
+        Route::middleware('auth:sanctum')->group(function(){
+            Route::get('/', [OrderController::class, 'all']);
+            Route::get('/show/{id}', [OrderController::class, 'show']);
+            Route::post('/create', [OrderController::class, 'create']);
+            Route::post('/update', [OrderController::class, 'update']);
+        });
     });
 });

@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->integer('client_id')->nullable(false);
+            $table->integer('driver_id')->nullable();
+            $table->text('addres')->nullable(false);
+            $table->text('message')->nullable();
+            $table->integer('count_user')->default(1);
+            $table->enum('order_type', ['Грузовой', 'Детский', 'Стандарт']);
+            $table->integer('price')->nullable(false);
             $table->timestamps();
         });
     }
